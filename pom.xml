@@ -11,7 +11,7 @@
 
   <properties>
     <!-- Convenience property to set the GWT version -->
-    <gwt.version>HEAD-SNAPSHOT</gwt.version>
+    <gwt.version>2.8.2</gwt.version>
 
     <!-- Setting maven.compiler.source to something different to 1.8
          needs that you configure the sourceLevel in gwt-maven-plugin since
@@ -34,10 +34,25 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+      <dependency>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>1.5.21.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
     <!-- GWT -->
     <dependency>
       <groupId>com.google.gwt</groupId>
@@ -55,6 +70,18 @@
       <artifactId>gwt-dev</artifactId>
       <!-- "provided" so that we don't deploy -->
       <scope>provided</scope>
+
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.eclipse.jetty.websocket</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+
     </dependency>
 
 
@@ -112,6 +139,7 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.7.12</version>
     </dependency>
+
   </dependencies>
 
   <build>
@@ -152,6 +180,18 @@
             <startupUrl>Validation.html</startupUrl>
           </startupUrls>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
